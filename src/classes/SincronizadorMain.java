@@ -1,5 +1,7 @@
 package classes;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,40 +12,46 @@ public class SincronizadorMain {
 	 */
 	public static void main(String args[]) {
 		long inicio;
-		List<Cliente> produtos;
+		List<Cliente> clientes;
 		ConexaoLocal conexaoLocal;
 		ConexaoERP conexaoERP;
-		
+		int contador = 0;
 		conexaoERP = new ConexaoERP();
+		conexaoLocal = new ConexaoLocal();
 
 		while( true ){
 			
-			produtos = new ArrayList<Cliente>(); 
+			clientes = new ArrayList<Cliente>(); 
 						
 			inicio = System.currentTimeMillis();
 			
-			produtos = conexaoERP.getProdutos();
+			clientes = conexaoERP.getProdutos();
 			
-			if( produtos.size() > 0 ) {
-				conexaoLocal = new ConexaoLocal();
+			if( clientes.size() > 0 ) {
+				
 
-				conexaoLocal.salvar( produtos );
+				conexaoLocal.salvar( clientes );
 
 				long atual = System.currentTimeMillis() - inicio;
 				System.out.println("Atualização completada - Tempo: " + atual + "ms");
 				
-				conexaoLocal.Desconectar();
 			}else{
 				System.out.println("Nenhuma atualização");				
 			}
 			
-			try { Thread.sleep(500); } catch (InterruptedException e) { e.printStackTrace(); }
+			try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
 
-			break;
+			//break;
 
+			if(contador < 3){
+				contador++;
+			}else{
+				break;
+			}
 		}
 		
 		conexaoERP.Desconectar();
+		conexaoLocal.Desconectar();
 
 	}
 

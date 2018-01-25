@@ -19,7 +19,7 @@ public class ConexaoLocal {
 			String senha = "mobile";
 			String ip = "127.0.0.1";
 			String porta = "5432";
-			String nomeBanco = "produto";
+			String nomeBanco = "produtoo";
 			
 			Class.forName("org.postgresql.Driver");
 			
@@ -103,7 +103,7 @@ public class ConexaoLocal {
 
 			System.out.println("Clientes inseridos");			
 						
-			this.AtualizarDadosNosCaixas();
+			//this.AtualizarDadosNosCaixas();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -112,7 +112,20 @@ public class ConexaoLocal {
 	}
 
 	private void AtualizarDadosNosCaixas() {
+		try {
+			String usuario = "dba";
+			String senha = "mobile";
+			String porta = "5432";
+			String nomeBanco = "produtoo";
+			
+			Class.forName("org.postgresql.Driver");
+			
+			String ip = "127.0.0.1";
+			conexao = DriverManager.getConnection( "jdbc:postgresql://" + ip + ":" + porta + "/" + nomeBanco, usuario, senha);
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void Desconectar(){
